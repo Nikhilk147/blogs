@@ -32,7 +32,6 @@ app.config['SECRET_KEY'] = os.environ.get("flask_key")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -47,7 +46,7 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("db_uri")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("db_uri", "sqlite:///posts.db")
 
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
@@ -241,8 +240,6 @@ def about():
 
 
 def send_mail(name, email, phone, message):
-
-
     with smtplib.SMTP("smtp.gmail.com") as connection:
         email_message = f"Subject:New message\n\nName:{name}\nEmail:{email}\nPhone:{phone}\nMessage:{message}"
         connection.starttls()
